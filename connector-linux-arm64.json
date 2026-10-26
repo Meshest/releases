@@ -1,0 +1,15 @@
+{
+  "profile": "meshest.connector-packet.0.1",
+  "platform": "linux",
+  "architecture": "arm64",
+  "filename": "meshest-pilot-linux-arm64.tar.gz",
+  "sha256": "1c53c5e366ff4b8bcab578bf66f0f8a4dba75ec7ac432f32adad1c5fc6430f0c",
+  "bytes": 188590927,
+  "download_path": "/connector-packet",
+  "preparation": {
+    "filename": "meshest-prepare.py",
+    "bytes": 28539,
+    "sha256": "9ea83aad977c1c317f58e0b0001cd1b27560cafa694b6e8c33909a419844a1bb",
+    "download_path": "/connector-packet/prepare"
+  }
+}
