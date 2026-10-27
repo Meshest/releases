@@ -95,6 +95,18 @@ def prepare(archive, destination, record, arch):
                     '--archive-sha256', record['sha256'], '--destination', str(destination)],
                    input=helper, env={'PATH':os.defpath}, check=True, timeout=120)
 
+def failure_message(error):
+    code = str(error) if isinstance(error, ValueError) and re.fullmatch('setup_[a-z_]+', str(error)) else 'setup_unavailable'
+    guidance = ''
+    if code == 'setup_destination_exists':
+        guidance = ' Keep the existing destination unchanged. For a separate installation, choose a new absolute destination that does not exist; do not delete or reuse saved state.'
+    elif isinstance(error, subprocess.CalledProcessError):
+        guidance = (' Authenticated preparation stopped; its diagnostic appears above.'
+                    ' If it reports packet_extract_capacity_unavailable, check the effective VM/user disk quota and available capacity; shared filesystem free space alone does not establish quota capacity.'
+                    ' If it reports packet_extract_destination_exists, keep that path unchanged and choose a new absent destination for a separate installation.'
+                    ' Inspect any partial destination before deciding on a deliberate manual attempt; do not delete or reuse saved state.')
+    return code+'; preserve downloaded files and any partial destination. No automatic retry.'+guidance+'\n'
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--release', required=True, help='Immutable commit in the independent Meshest/releases publisher')
@@ -106,5 +118,4 @@ if __name__ == '__main__':
         arch = architecture()
         prepare(args.archive.absolute(), args.destination.absolute(), release_record(args.release, arch), arch)
     except (ValueError, OSError, tarfile.TarError, subprocess.SubprocessError) as error:
-        code = str(error) if isinstance(error, ValueError) and re.fullmatch('setup_[a-z_]+', str(error)) else 'setup_unavailable'
-        parser.exit(1, code+'; preserve downloaded files and any partial destination. No automatic retry.\n')
+        parser.exit(1, failure_message(error))
