@@ -3,8 +3,8 @@
   "platform": "linux",
   "architecture": "arm64",
   "filename": "meshest-pilot-linux-arm64.tar.gz",
-  "sha256": "3789907abd7690ba0e50904cb2d7b61847df320b22bc683f0e603746e4e89f6a",
-  "bytes": 188651387,
+  "sha256": "b794767832cbf9143ffb2fc28013225e440cb8aa52171a48ddb29105ec9ec5d5",
+  "bytes": 188654253,
   "download_path": "/connector-packet",
   "preparation": {
     "filename": "meshest-prepare.py",
